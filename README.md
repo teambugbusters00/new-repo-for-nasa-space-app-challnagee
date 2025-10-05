@@ -1,225 +1,266 @@
-# 🪐 NASA Exoplanet Detection AI Platform
+---
 
-A comprehensive deep learning platform for exoplanet detection using NASA data, featuring a modern React frontend and FastAPI backend with real-time WebSocket analysis.
+<h1 align="center">
+  🌌✨ <br>
+  <b>NASA Exoplanet Detection AI Platform</b>  
+  <br>
+  <sub>🚀 A Deep Learning Odyssey Beyond the Stars 🚀</sub>
+</h1>
 
-## 🌟 Features
-
-### 🚀 **Core Functionality**
-- **AI-Powered Analysis**: Advanced machine learning models trained on NASA exoplanet data
-- **Real-Time Predictions**: WebSocket-based live analysis with instant results
-- **Universal CSV Parser**: Intelligent column detection for various data formats
-- **Interactive Visualizations**: Beautiful charts and graphs for data exploration
-
-### 🎨 **Modern Web Interface**
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
-- **Dark Space Theme**: Professional gradient backgrounds with cyan accents
-- **Smooth Animations**: Framer Motion animations for enhanced UX
-- **Drag & Drop Upload**: Intuitive file upload interface
-
-### 📊 **Sample Datasets**
-- **Simple Dataset**: 20 exoplanet candidates for basic testing
-- **Mixed Results**: Realistic positive/negative cases for comprehensive evaluation
-- **NASA Format**: Compatible with standard exoplanet catalog formats
-
-## 🛠️ Technology Stack
-
-### **Frontend**
-- **React 18** - Modern component-based UI framework
-- **Material-UI** - Professional UI component library
-- **Framer Motion** - Smooth animations and transitions
-- **React Router** - Client-side routing
-- **Recharts** - Interactive data visualizations
-
-### **Backend**
-- **FastAPI** - High-performance Python web framework
-- **PyTorch** - Deep learning model inference
-- **WebSockets** - Real-time bidirectional communication
-- **Pandas/NumPy** - Data processing and analysis
-- **Scikit-learn** - Machine learning utilities
-
-### **AI/ML Models**
-- **CNN + Transformer Hybrid** - Advanced architecture for time-series analysis
-- **Catalog-Only MLP** - Fast predictions using stellar parameters
-- **Trained on NASA Data** - Real exoplanet archive data for high accuracy
-
-## 🚀 Quick Start
-
-### **Prerequisites**
-```bash
-# Python dependencies
-pip install -r requirements.txt
-
-# Node.js dependencies
-npm install
-```
-
-### **Local Development**
-
-1. **Start the Backend** (Terminal 1):
-```bash
-python api_predict.py
-```
-Backend will run on `http://localhost:8000`
-
-2. **Start the Frontend** (Terminal 2):
-```bash
-npm start
-```
-Frontend will run on `http://localhost:3000`
-
-3. **Open your browser** and navigate to `http://localhost:3000`
-
-## ☁️ Deploy to Render
-
-### **One-Click Deployment**
-
-1. **Connect to GitHub**: Link your repository at [render.com](https://render.com)
-2. **Select Service**: Choose "Web Service" and connect to your GitHub repo
-3. **Configure Services**:
-
-**Option A: Single Service (Recommended)**
-```yaml
-# Automatic configuration via render.yaml
-Build Command: pip install -r requirements.txt && npm install && npm run build
-Start Command: python api_predict.py
-```
-
-**Option B: Separate Services**
-- **Backend Service**: Python service with `api_predict.py`
-- **Frontend Service**: Static site with React build
-
-### **Environment Variables**
-Add these to your Render service:
-```bash
-PORT=8000
-NODE_ENV=production
-```
-
-### **Deployment Steps**
-1. Push code to GitHub
-2. Connect repository in Render dashboard
-3. Render automatically detects `render.yaml`
-4. Deploy with one click
-5. Access your live application!
-
-### **Production URL**
-After deployment, your app will be available at:
-`https://your-app-name.onrender.com`
-
-## 📁 Project Structure
-
-```
-nasa-space-app/
-├── 📂 public/                 # Static files
-│   ├── index.html            # React app entry point
-│   ├── sample_exoplanet_data.csv    # Simple test dataset
-│   └── mixed_exoplanet_results.csv  # Mixed positive/negative cases
-├── 📂 src/                   # React frontend
-│   ├── index.js             # App entry point
-│   ├── App.js               # Main app component with routing
-│   └── 📂 components/       # React components
-│       ├── Header.js        # Navigation header
-│       ├── Homepage.js      # Landing page
-│       ├── Dashboard.js     # Main analysis interface
-│       ├── Contact.js       # Contact page with team info
-│       └── ...              # Other components
-├── 📂 api_predict.py         # FastAPI backend server
-├── 📂 models.py             # PyTorch model definitions
-├── 📂 dataset.py            # Data loading utilities
-├── 📂 preprocess.py         # Data preprocessing pipeline
-├── 📂 train.py              # Model training script
-├── 📂 requirements.txt       # Python dependencies
-├── 📂 package.json          # Node.js dependencies
-└── 📂 README.md             # This file
-```
-
-## 🎯 Usage Guide
-
-### **1. Upload CSV Data**
-- Navigate to the Dashboard
-- Upload your CSV file with exoplanet candidates
-- Supports NASA format and custom column structures
-
-### **2. Real-Time Analysis**
-- Connect to WebSocket for live predictions
-- Send individual candidates for instant analysis
-- View probability scores and confidence levels
-
-### **3. View Results**
-- Interactive charts showing prediction distributions
-- Detailed statistics and performance metrics
-- Export results for further analysis
-
-## 🔧 API Endpoints
-
-### **POST /predict_csv**
-Upload CSV file for batch analysis
-```bash
-curl -X POST -F "file=@candidates.csv" http://localhost:8000/predict_csv
-```
-
-### **WebSocket /ws**
-Real-time analysis endpoint
-```javascript
-const ws = new WebSocket('ws://localhost:8000/ws');
-ws.send(JSON.stringify({ candidate }));
-```
-
-## 📊 Sample Data Format
-
-```csv
-kepid,koi_period,koi_time0bk,koi_depth,koi_duration,koi_prad,koi_teq,koi_insol,koi_slogg,koi_srad,koi_steff,koi_smass,koi_sage
-K00001,3.234567,2458321.567,150.5,2.45,1.2,1200.5,1.8,4.2,1.1,5800.5,1.05,4.5
-K00002,5.678901,2458325.890,89.3,3.12,0.8,950.2,0.9,4.5,0.9,5200.8,0.85,2.1
-```
-
-## 👥 Our Team
-
-- **[Hema Harshini Pydimarri](https://www.linkedin.com/in/hema-harshini-pydimarri/)** - Technical Lead & Research
-- **[Sukeerthi Langu](https://www.linkedin.com/in/sukeerthi-langu/)** - AI Research Scientist
-- **[Vijay Jangid](https://www.linkedin.com/in/vijay----jangid/)** - AI/ML Developer
-
-## 🎓 Model Performance
-
-- **Accuracy**: 99.2% on test dataset
-- **Processing Time**: < 1 second per candidate
-- **Real-time Capable**: WebSocket support for live analysis
-- **Robust Architecture**: Handles various data formats and quality levels
-
-## 🔬 Research Applications
-
-- **Exoplanet Candidate Vetting**: Automated classification of transit signals
-- **False Positive Identification**: Distinguishes planets from stellar activity
-- **Priority Ranking**: Scores candidates for follow-up observations
-- **Multi-Mission Data**: Compatible with Kepler, TESS, and other surveys
-
-## 📈 Future Enhancements
-
-- [ ] Multi-class classification (planet types)
-- [ ] Uncertainty quantification with deep ensembles
-- [ ] Integration with astronomical databases
-- [ ] Advanced visualization tools
-- [ ] Mobile application development
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **NASA Exoplanet Archive** for providing the training data
-- **PyTorch Team** for the excellent deep learning framework
-- **Material-UI Team** for the beautiful component library
-- **React Community** for the robust ecosystem
+<p align="center">
+  <img src="https://img.shields.io/badge/Framework-FastAPI-0?style=for-the-badge&logo=fastapi&logoColor=white&color=0A9E8C">
+  <img src="https://img.shields.io/badge/Frontend-React-0?style=for-the-badge&logo=react&logoColor=white&color=61DAFB">
+  <img src="https://img.shields.io/badge/AI-PyTorch-red?style=for-the-badge&logo=pytorch&logoColor=white">
+  <img src="https://img.shields.io/badge/Team-BugBusters-blueviolet?style=for-the-badge">
+</p>
 
 ---
 
-**Made with ❤️ by Team BugBusters for exoplanet research and discovery**
+## 🌠 Overview
+> 🧠 A next-gen **AI-powered deep learning platform** that detects **exoplanets** from NASA data — combining science, design, and intelligence.  
+> Powered by **React**, **FastAPI**, and **PyTorch**, this system predicts celestial candidates **in real-time** using **WebSocket streaming**.  
+
+<p align="center">
+  <img src="https://github.com/teambugbusters00/nasa-exoplanet-ai/assets/space-banner.gif" width="800px" alt="space banner">
+</p>
+
+---
+
+## 🪐 Features at Warp Speed
+
+| 🌌 Category | 🚀 Description |
+|-------------|----------------|
+| **AI-Powered Analysis** | Hybrid CNN + Transformer model trained on NASA Exoplanet Archive |
+| **Live Predictions** | Real-time WebSocket-based inference with instant visualization |
+| **Universal CSV Parser** | Auto column mapping for multiple dataset formats |
+| **Dynamic Visuals** | Stunning charts and animations via Recharts + Framer Motion |
+| **Dark Space UI** | Responsive, futuristic, gradient-styled interface |
+
+---
+
+## 🎨 Interface Highlights
+
+🌙 **Dark Galactic Theme** — Neon cyan + deep indigo  
+⚙️ **Framer Motion Animations** — Smooth transitions like orbital motion  
+🪄 **Drag & Drop Uploads** — Interactive CSV upload zone  
+📊 **Data Galaxy Dashboard** — Visualize predictions in orbit-like charts  
+
+<p align="center">
+  <img src="https://github.com/teambugbusters00/nasa-exoplanet-ai/assets/dashboard-preview.gif" width="700px" alt="dashboard animation">
+</p>
+
+---
+
+## 🧩 Tech Stack
+
+| 🌌 Layer | 🧠 Technology |
+|----------|---------------|
+| **Frontend** | React 18, Material-UI, Framer Motion, React Router, Recharts |
+| **Backend** | FastAPI, WebSockets, PyTorch, Pandas, NumPy, Scikit-learn |
+| **AI Models** | CNN + Transformer Hybrid & MLP (catalog-based) |
+| **Deployment** | Render Cloud / GitHub Actions |
+
+---
+
+## 🧠 Model Architecture
+
+🌍 Input Light Curve → 🧮 Preprocessing → 🧠 CNN Feature Extraction → 🔄 Transformer Attention → 🎯 Exoplanet Prediction (Probability)
+
+---
+
+## ⚙️ Quick Start Guide
+
+```bash
+# 🛰️ Clone Repository
+git clone https://github.com/teambugbusters00/nasa-exoplanet-ai.git
+cd nasa-exoplanet-ai
+
+# 🧩 Install Backend Dependencies
+pip install -r requirements.txt
+
+# 🪐 Install Frontend Dependencies
+npm install
+
+🚀 Run Locally
+
+# Backend
+python api_predict.py
+# Frontend
+npm start
+
+> 🌍 Visit http://localhost:3000 and begin your interstellar exploration.
+
+
+
+
+---
+
+☁️ Deploy to Render
+
+🌐 One-Click Setup
+
+1. Push your code to GitHub
+
+
+2. Login to Render.com
+
+
+3. Connect the repo → Add a Web Service
+
+
+
+Build Command
+
+pip install -r requirements.txt && npm install && npm run build
+
+Start Command
+
+python api_predict.py
+
+Add these Environment Variables:
+
+PORT=8000
+NODE_ENV=production
+
+
+---
+
+🗂️ Project Structure
+
+nasa-space-app/
+├── public/
+│   ├── index.html
+│   ├── sample_exoplanet_data.csv
+│   └── mixed_exoplanet_results.csv
+├── src/
+│   ├── App.js
+│   ├── index.js
+│   └── components/
+│       ├── Header.js
+│       ├── Homepage.js
+│       ├── Dashboard.js
+│       └── Contact.js
+├── api_predict.py
+├── models.py
+├── preprocess.py
+├── dataset.py
+├── train.py
+├── requirements.txt
+├── package.json
+└── README.md
+
+
+---
+
+🔧 API Endpoints
+
+🔹 POST /predict_csv
+
+Upload a CSV for batch analysis:
+
+curl -X POST -F "file=@candidates.csv" http://localhost:8000/predict_csv
+
+🔹 WebSocket /ws
+
+const ws = new WebSocket("ws://localhost:8000/ws");
+ws.send(JSON.stringify({ candidate }));
+
+
+---
+
+📊 Example CSV
+
+kepid,koi_period,koi_time0bk,koi_depth,koi_duration,koi_prad,koi_teq,koi_insol,koi_slogg,koi_srad,koi_steff,koi_smass,koi_sage
+K00001,3.23,2458321.56,150.5,2.45,1.2,1200.5,1.8,4.2,1.1,5800.5,1.05,4.5
+K00002,5.67,2458325.89,89.3,3.12,0.8,950.2,0.9,4.5,0.9,5200.8,0.85,2.1
+
+
+---
+
+👥 Stellar Crew
+
+👨‍🚀 Name	🧭 Role	🔗 Profile
+
+Hema Harshini Pydimarri	Technical Lead & Research	LinkedIn
+Sukeerthi Langu	AI Research Scientist	LinkedIn
+Vijay Jangid	AI/ML Developer	LinkedIn
+
+
+
+---
+
+📈 Model Performance
+
+Metric	Result
+
+🧮 Accuracy	99.2%
+⚡ Inference Time	< 1 sec
+🌐 WebSocket Ready	✅
+🧰 Multi-format CSVs	✅
+
+
+
+---
+
+🔬 Research Applications
+
+🪐 Automated Exoplanet Vetting
+
+☀️ False Positive Detection
+
+🌟 Planet Priority Scoring
+
+🌌 Multi-Mission Compatibility (Kepler, TESS, etc.)
+
+
+
+---
+
+🌍 Future Upgrades
+
+[ ] Planet Type Multi-class Classification
+
+[ ] Uncertainty Quantification
+
+[ ] NASA Database Integration
+
+[ ] 3D Orbit Visualizer
+
+[ ] Android Companion App
+
+
+
+---
+
+🤝 Contributing
+
+# Fork it 🚀
+git checkout -b feature/amazing-feature
+# Commit it 🌟
+git commit -m "Add amazing feature"
+# Push it 🪄
+git push origin feature/amazing-feature
+
+Then open a Pull Request 💫
+
+
+---
+
+📜 License
+
+Licensed under MIT License
+See LICENSE for details.
+
+
+---
+
+🛰️ Acknowledgments
+
+🌌 NASA Exoplanet Archive for the data
+
+🔥 PyTorch team for the AI framework
+
+🧩 Material-UI for the design system
+
+💻 React Community for the ecosystem
+
