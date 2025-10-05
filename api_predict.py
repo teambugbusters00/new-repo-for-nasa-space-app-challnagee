@@ -18,32 +18,46 @@ app = FastAPI()
 # Add CORS middleware to allow browser requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
+    allow_origins=["*"],  # Configure for production - update with your domain
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
 )
 
-# Mount static files for React build
+# Mount static files for React build (for single-service deployment)
 if os.path.exists("build"):
-    app.mount("/static", StaticFiles(directory="build/static"), name="static")
+    app.mount("/", StaticFiles(directory="build", html=True), name="static")
 
-# Serve React app for any non-API routes
+# Serve React app for any non-API routes (fallback for SPA)
 @app.middleware("http")
 async def serve_react_app_middleware(request, call_next):
     response = await call_next(request)
     if response.status_code == 404:
-        if not request.url.path.startswith("/api"):
-            return HTMLResponse(content=open("build/index.html").read(), media_type="text/html")
+        if not request.url.path.startswith("/api") and not request.url.path.startswith("/ws"):
+            try:
+                return FileResponse("build/index.html")
+            except:
+                pass  # Continue to next handler
     return response
 MODEL_PATH = 'nasa_model.pth'
 SEQ_LEN = 201
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = FullModel(seq_len=SEQ_LEN, n_tab_features=13, catalog_only=True)  # 13 features for NASA catalog
-model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
-model.to(device)
-model.eval()
+
+# Initialize model with error handling for deployment
+model = None
+try:
+    if os.path.exists(MODEL_PATH):
+        model = FullModel(seq_len=SEQ_LEN, n_tab_features=13, catalog_only=True)  # 13 features for NASA catalog
+        model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+        model.to(device)
+        model.eval()
+        print("Model loaded successfully")
+    else:
+        print(f"Warning: Model file {MODEL_PATH} not found. Prediction endpoints will not work.")
+except Exception as e:
+    print(f"Error loading model: {e}")
+    model = None
 
 @app.get("/")
 async def serve_react_app():
@@ -172,6 +186,10 @@ async def predict_csv(file: UploadFile = File(...)):
         if missing_required:
             return {"error": f"Missing required columns for prediction: {missing_required}. Available columns: {list(df.columns)}"}
 
+        # Check if model is loaded
+        if model is None:
+            return {"error": "AI model not loaded. Please ensure model files are available."}
+
         print(f"Processing {len(df)} candidates for prediction")
 
         outputs = []
@@ -239,6 +257,15 @@ async def websocket_endpoint(websocket: WebSocket):
                 json_data = json.loads(data)
                 candidate_data = json_data.get('candidate', {})
 
+                # Check if model is loaded
+                if model is None:
+                    error_result = {
+                        'status': 'error',
+                        'message': 'AI model not loaded'
+                    }
+                    await manager.send_personal_message(json.dumps(error_result), websocket)
+                    continue
+
                 # Extract features for prediction
                 features = extract_websocket_features(candidate_data)
 
@@ -296,6 +323,14 @@ async def websocket_stream(websocket: WebSocket):
 
                     results = []
                     for candidate in candidates:
+                        # Check if model is loaded
+                        if model is None:
+                            results.append({
+                                'id': candidate.get('id', 'unknown'),
+                                'error': 'AI model not loaded'
+                            })
+                            continue
+
                         features = extract_websocket_features(candidate)
                         x = torch.tensor(features[np.newaxis, :], dtype=torch.float32).to(device)
 
@@ -514,4 +549,6 @@ def _clean_dataframe(df):
     return df
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    # Get port from environment variable (for Render deployment) or use default
+    port = int(os.getenv('PORT', 8000))
+    uvicorn.run(app, host='0.0.0.0', port=port)
