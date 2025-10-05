@@ -36,124 +36,19 @@
 | **Dynamic Visuals** | Stunning charts and animations via Recharts + Framer Motion |
 | **Dark Space UI** | Responsive, futuristic, gradient-styled interface |
 
---/*
-YouTubeLivePlayer.jsx
-A reusable React component to embed and auto-play a YouTube live/video inside your React app.
+---
 
-Features:
-- Uses react-player (recommended) with a plain iframe fallback
-- Autoplay (muted) to satisfy browser autoplay policies
-- Attempts to resume playback when the tab becomes visible again
-- Reconnects / replays when the video ends (good for live streams that re-start)
-- Tailwind-friendly classes for quick styling
+## 🎥 Live Demo
 
-Install:
-npm install react-player
+<p align="center">
+  <a href="https://youtu.be/l13uVoMQdgo?si=awlf0n63xObrk5qu" target="_blank">
+    <img src="https://img.youtube.com/vi/l13uVoMQdgo/maxresdefault.jpg" 
+         alt="NASA Exoplanet Detection AI Demo" 
+         width="800">
+  </a>
+</p>
 
-Usage:
-import YouTubeLivePlayer from './YouTubeLivePlayer';
-
-<YouTubeLivePlayer
-  youtubeId="l13uVoMQdgo"            // or full url
-  className="w-full h-96 rounded-2xl shadow-xl"
-  muted={true}
-  autoPlay={true}
-  loop={true}
-/>
-
-Notes:
-- Browsers block autoplay with sound. Keep muted:true if you want autoplay to work consistently.
-- For a real "always-on" behavior you may want to ensure your server hosting the app is always running (e.g. deployed on Render/Netlify/Vercel) and optionally show a message if playback is blocked.
-- Live streams sometimes return an "ended" event when they transition — the component tries to reload the player in that case.
-*/
-
-import React, { useRef, useEffect, useState } from 'react';
-import ReactPlayer from 'react-player/youtube';
-
-export default function YouTubeLivePlayer({
-  youtubeId = 'l13uVoMQdgo',
-  url = null,
-  className = 'w-full h-80',
-  autoPlay = true,
-  muted = true,
-  loop = true,
-  controls = true,
-}) {
-  const playerRef = useRef(null);
-  const [playing, setPlaying] = useState(autoPlay);
-  const [key, setKey] = useState(0); // force remount when needed
-
-  const videoUrl = url || `https://www.youtube.com/watch?v=${youtubeId}`;
-
-  // Try to resume playback when tab becomes visible
-  useEffect(() => {
-    function handleVisibility() {
-      if (document.visibilityState === 'visible') {
-        // small timeout to allow browser to regain focus
-        setTimeout(() => setPlaying(true), 200);
-      }
-    }
-    document.addEventListener('visibilitychange', handleVisibility);
-    return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, []);
-
-  // If the player stops (ended/error), try to reload the player
-  function handleEnded() {
-    if (loop) {
-      // force remount the player to prompt a reconnect
-      setKey(k => k + 1);
-      setPlaying(true);
-    } else {
-      setPlaying(false);
-    }
-  }
-
-  function handleError(e) {
-    // on network errors or player errors, attempt a retry after a short delay
-    console.warn('YouTube player error:', e);
-    setTimeout(() => {
-      setKey(k => k + 1);
-      setPlaying(true);
-    }, 2000);
-  }
-
-  return (
-    <div className={`relative overflow-hidden bg-black ${className}`}>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <ReactPlayer
-          key={key}
-          ref={playerRef}
-          url={videoUrl}
-          playing={playing}
-          loop={loop}
-          muted={muted}
-          controls={controls}
-          width="100%"
-          height="100%"
-          onEnded={handleEnded}
-          onError={handleError}
-          config={{
-            youtube: {
-              playerVars: {
-                autoplay: autoPlay ? 1 : 0,
-                controls: controls ? 1 : 0,
-                rel: 0,
-                modestbranding: 1,
-                playsinline: 1,
-                disablekb: 0,
-              },
-            },
-          }}
-        />
-      </div>
-
-      {/* Small overlay controls / hints */}
-      <div className="absolute left-3 top-3 bg-black/40 text-white text-xs px-2 py-1 rounded-md backdrop-blur">
-        {muted ? 'Autoplay (muted)' : 'Autoplay'}
-      </div>
-    </div>
-  );
-}-
+> 🎬 Click the image above to watch the live demo!
 
 ## 🎨 Interface Highlights
 
