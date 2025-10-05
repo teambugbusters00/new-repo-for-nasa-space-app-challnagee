@@ -53,7 +53,7 @@ pip install -r requirements.txt
 npm install
 ```
 
-### **Run the Application**
+### **Local Development**
 
 1. **Start the Backend** (Terminal 1):
 ```bash
@@ -68,6 +68,43 @@ npm start
 Frontend will run on `http://localhost:3000`
 
 3. **Open your browser** and navigate to `http://localhost:3000`
+
+## ☁️ Deploy to Render
+
+### **One-Click Deployment**
+
+1. **Connect to GitHub**: Link your repository at [render.com](https://render.com)
+2. **Select Service**: Choose "Web Service" and connect to your GitHub repo
+3. **Configure Services**:
+
+**Option A: Single Service (Recommended)**
+```yaml
+# Automatic configuration via render.yaml
+Build Command: pip install -r requirements.txt && npm install && npm run build
+Start Command: python api_predict.py
+```
+
+**Option B: Separate Services**
+- **Backend Service**: Python service with `api_predict.py`
+- **Frontend Service**: Static site with React build
+
+### **Environment Variables**
+Add these to your Render service:
+```bash
+PORT=8000
+NODE_ENV=production
+```
+
+### **Deployment Steps**
+1. Push code to GitHub
+2. Connect repository in Render dashboard
+3. Render automatically detects `render.yaml`
+4. Deploy with one click
+5. Access your live application!
+
+### **Production URL**
+After deployment, your app will be available at:
+`https://your-app-name.onrender.com`
 
 ## 📁 Project Structure
 
