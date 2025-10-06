@@ -195,10 +195,10 @@ K00002,5.678901,2458325.890,89.3,3.12,0.8,950.2,0.9,4.5,0.9,5200.8,0.85,2.1
 
 ## 📈 Future Enhancements
 
+- [ ] Advanced visualization tools
 - [ ] Multi-class classification (planet types)
 - [ ] Uncertainty quantification with deep ensembles
 - [ ] Integration with astronomical databases
-- [ ] Advanced visualization tools
 - [ ] Mobile application development
 
 ## 🤝 Contributing
