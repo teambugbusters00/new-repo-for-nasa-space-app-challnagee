@@ -188,16 +188,16 @@ dmypy.json
 .pyre/
 
 # Model files (these are large and can be regenerated)
-*.pth
-*.npz
-*.h5
-*.pkl
-*.joblib
+# *.pth
+# *.npz
+# *.h5
+# *.pkl
+# *.joblib
 
 # Data files (users should use their own data)
-*.csv
-!sample_exoplanet_data.csv
-!mixed_exoplanet_results.csv
+# *.csv
+# !sample_exoplanet_data.csv
+# !mixed_exoplanet_results.csv
 
 # Temporary files
 *.tmp
