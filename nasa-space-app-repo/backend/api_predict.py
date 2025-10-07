@@ -25,9 +25,9 @@ app.add_middleware(
 )
 
 # Mount static files for React build (for single-service deployment)
-if os.path.exists("build"):
-    app.mount("/static", StaticFiles(directory="build/static"), name="static")
-    app.mount("/", StaticFiles(directory="build", html=True), name="react")
+if os.path.exists("../frontend/build"):
+    app.mount("/static", StaticFiles(directory="../frontend/build/static"), name="static")
+    app.mount("/", StaticFiles(directory="../frontend/build", html=True), name="react")
 
 # Serve React app for any non-API routes (fallback for SPA)
 @app.middleware("http")
@@ -36,7 +36,7 @@ async def serve_react_app_middleware(request, call_next):
     if response.status_code == 404:
         if not request.url.path.startswith("/api") and not request.url.path.startswith("/ws"):
             try:
-                return FileResponse("build/index.html")
+                return FileResponse("../frontend/build/index.html")
             except:
                 pass  # Continue to next handler
     return response
@@ -64,7 +64,7 @@ except Exception as e:
 async def serve_react_app():
     """Serve the React application"""
     try:
-        return FileResponse("build/index.html")
+        return FileResponse("../frontend/build/index.html")
     except:
         # Fallback if build/index.html doesn't exist
         return HTMLResponse(content="""

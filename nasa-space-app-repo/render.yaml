@@ -6,11 +6,12 @@ services:
     buildCommand: |
       python --version &&
       pip install -r requirements.txt &&
-      node --version &&
+      cd frontend &&
       npm --version &&
       npm install &&
-      npm run build
-    startCommand: python api_predict.py
+      npm run build &&
+      cd ..
+    startCommand: python backend/api_predict.py
     autoDeploy: false
     healthCheckPath: /
     envVars:
